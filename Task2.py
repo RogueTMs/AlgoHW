@@ -1,41 +1,50 @@
-from math import pow
 from random import randint
 
-
 def mult(x, y):
-    l_x = len(x)
-    l_y = len(y)
-    if l_x == l_y and l_x == 1:
-        return int(x) * int(y)
+    l_x = len(str(x))
+    l_y = len(str(y))
 
-    n = max(l_x, l_y)
+    dif = abs(l_x - l_y)
+
+    if l_y == 1 or l_x == 1:
+        return x * y
+
+    n = l_x
+
     if n % 2 != 0:
         n += 1
-    x = '0' * (n - l_x) + x
-    y = '0' * (n - l_y) + y
+        l_x *= 10
+        l_y *= 10
+
     n //= 2
 
-    a = x[:n:]
-    b = x[n::]
-    c = y[:n:]
-    d = y[n::]
+    a = int(x // (10**n))
+    b = int(x % (10**n))
+    c = int(y // (10**n))
+    d = int(y % (10**n))
 
     first = mult(a, c)
     second = mult(b, d)
-    third = mult(str((int(a) + int(b))), str((int(c) + int(d)))) - first - second
+    third = mult(a + b, c + d) - first - second
 
-    return int(int(first) * pow(10, (2*n)) + int(third) * pow(10, n) + int(second))
+    return first * 10**(2 * n) + third * 10**n + second
+
+
+def test_kar(a, b):
+    assert mult(a, b) == a * b
 
 
 def test(depth):
     for i in range(depth):
-        a = randint(1, 10000000)
-        b = randint(1, 10000000)
-        if a * b != mult(str(a), str(b)):
+        a = randint(1, 100000000000000)
+        b = randint(1, 100000000000000)
+        if a * b != mult(a, b):
             print(a, b)
             return 'Alert!'
     return 'Fine'
 
 
 print(test(1000))
+print(mult(0, 12))
+test_kar(1098765432345678765434567, 123456789098765432345678909876)
 

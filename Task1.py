@@ -1,43 +1,37 @@
-def solve(n, m: str) -> (int, int):
-    ans = []
-    cur = n[0]
-    n = n[1::]
-    while n:
-        if cur == '0':
-            ans.append(0)
-            cur = n[0]
-            n = n[1::]
-        elif int(cur) < int(m):
-            cur += n[0]
-            n = n[1::]
+def solve(n, m: int) -> (int, int):
+    ans = 0
+    nums = [int(x) for x in str(n)]
+    cur = 0
+    for i in range(len(nums)):
+        cur = cur * 10 + nums[i]
+        if cur == 0:
+            ans = ans * 10
+            cur = nums[i]
+        elif cur < m:
+            pass
         else:
-            cur, i = enumeration(cur, m)
-            ans.append(i)
+            cur, k = enumeration(cur, m)
+            ans = ans * 10 + k
 
-            if int(cur):
-                cur += n[0]
+            if cur:
+                pass
             else:
-                cur = n[0]
+                cur = nums[i]
 
-            n = n[1::]
-
-    cur, i = enumeration(cur, m)
-    ans.append(i)
-
-    return int("".join(map(str, ans))), int(cur)
+    return ans, cur
 
 
 def enumeration(dividend, divisor):
     for i in range(1, 10):
-        if int(divisor) * i >= int(dividend):
-            if int(divisor) * i != int(dividend):
+        if divisor * i >= dividend:
+            if divisor * i != dividend:
                 i -= 1
-            dividend = str(int(dividend) - (int(divisor) * i))
+            dividend = dividend - (divisor * i)
             return dividend, i
 
 
-print(solve('358', '17'))
-print(solve('1000', '2'))
-print(solve('1', '17'))
+print(solve(358, 17))
+print(solve(1000, 2))
+print(solve(1, 17))
 
 
