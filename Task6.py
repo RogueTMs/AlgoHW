@@ -1,28 +1,38 @@
 def wiggleSort(nums) -> None:
-    enumerates = [1, 4, 10, 23, 57, 132, 301, 701]
-    for k in enumerates:
-        if k < len(nums):
-            for i in range(k, len(nums)):
-                j = i
-                while j - k >= 0 and nums[j - k] > nums[j]:
-                    nums[j - k], nums[j] = nums[j], nums[j - k]
-                    j -= k
+    def mergeSort(array):
+        if len(array) > 1:
 
-    print(nums)
-    for i in range(1, len(nums) - 1, 2):
-        j = i + 1
-        while nums[j] <= nums[i]:
-            j += 1
-            if j == len(nums):
-                j -= 1
-                break
+            r = len(array) // 2
+            L = array[:r]
+            M = array[r:]
 
-        nums[i], nums[j] = nums[j], nums[i]
+            mergeSort(L)
+            mergeSort(M)
 
+            i = j = k = 0
+            while i < len(L) and j < len(M):
+                if L[i] < M[j]:
+                    array[k] = L[i]
+                    i += 1
+                else:
+                    array[k] = M[j]
+                    j += 1
+                k += 1
 
-nums = [1, 5, 1, 1, 6, 4]
-wiggleSort(nums)
-print(nums)
-nums = [1, 4, 3, 4, 1, 2, 1, 3, 1, 3, 2, 3, 3]
-wiggleSort(nums)
-print(nums)
+            while i < len(L):
+                array[k] = L[i]
+                i += 1
+                k += 1
+
+            while j < len(M):
+                array[k] = M[j]
+                j += 1
+                k += 1
+
+    mergeSort(nums)
+    cpy = nums.copy()
+    for i in range(1, len(nums), 2):
+        nums[i] = cpy.pop()
+    for i in range(0, len(nums), 2):
+        nums[i] = cpy.pop()
+
