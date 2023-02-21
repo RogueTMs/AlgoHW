@@ -1,38 +1,22 @@
 def wiggleSort(nums) -> None:
-    def mergeSort(array):
-        if len(array) > 1:
-
-            r = len(array) // 2
-            L = array[:r]
-            M = array[r:]
-
-            mergeSort(L)
-            mergeSort(M)
-
-            i = j = k = 0
-            while i < len(L) and j < len(M):
-                if L[i] < M[j]:
-                    array[k] = L[i]
-                    i += 1
+    def quick_sort(arr):
+        if len(arr) <= 1:
+            return arr.copy()
+        else:
+            right, left, equal = [], [], []
+            cur = arr[len(arr) // 2]
+            for i in arr:
+                if i > cur:
+                    right.append(i)
+                elif i < cur:
+                    left.append(i)
                 else:
-                    array[k] = M[j]
-                    j += 1
-                k += 1
+                    equal.append(i)
 
-            while i < len(L):
-                array[k] = L[i]
-                i += 1
-                k += 1
+            return quick_sort(left) + equal + quick_sort(right)
 
-            while j < len(M):
-                array[k] = M[j]
-                j += 1
-                k += 1
-
-    mergeSort(nums)
-    cpy = nums.copy()
+    cpy = quick_sort(nums)
     for i in range(1, len(nums), 2):
         nums[i] = cpy.pop()
     for i in range(0, len(nums), 2):
         nums[i] = cpy.pop()
-
