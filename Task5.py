@@ -1,5 +1,5 @@
 def hIndex(citations) -> int:
-    enumerates = [(((3**x) - 1) // 2)for x in range(1000)]
+    enumerates = [(((3**x) - 1) // 2) for x in range(1000)]
     for k in enumerates:
         if k < len(citations):
             for i in range(k, len(citations)):
@@ -14,4 +14,5 @@ def hIndex(citations) -> int:
         if citations[i] <= len(citations) - i:
             return max(citations[i], len(citations) - i - 1)
     return min(len(citations), citations[0])
+
 
