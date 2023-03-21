@@ -1,13 +1,15 @@
 def sortArray(nums):
-    return merge_sort(nums)
+    return merge_in_place(nums)
 
 
-def merge(left, right, res):
-    lsize, rsize = len(left), len(right)
-    n = lsize + rsize
-    assert n == len(res)
-    i, j, k = 0, 0, 0
-    while k < n and i < lsize and j < rsize:
+def swap(arr, left, right):
+    arr[left], arr[right] = arr[right], arr[left]
+
+
+def merge(arr, left_f, right_f, left_s, right_s, res):
+    # should be 2 arrays [left_f, right_f] and [left_s, right_s] and where to: [res, ...]
+    i, j = 0, 0
+    while i < lsize and j < rsize:
         if left[i] < right[j]:
             res[k] = left[i]
             i += 1
@@ -26,7 +28,7 @@ def merge(left, right, res):
         j += 1
 
 
-def merge_sort(array):
+def merge_in_place(array):
     if len(array) == 1:
         return array
 
@@ -36,8 +38,8 @@ def merge_sort(array):
         return array
 
     middle = len(array) // 2
-    l = merge_sort(array[:middle])
-    r = merge_sort(array[middle:])
+    l = merge_in_place(array[:middle])
+    r = merge_in_place(array[middle:])
 
     buffer = [0 for i in range(len(array))]
     merge(l, r, buffer)
@@ -48,5 +50,5 @@ def merge_sort(array):
     return array
 
 
-nums = [5,2,3,1]
+nums = [5, 2, 3, 1]
 print(sortArray(nums))
