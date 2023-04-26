@@ -1,44 +1,22 @@
-from heapq import heappush, heappop, heapify
+# Definition for singly-linked list.
 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        heap, res = [], ListNode()
+        for i, list in enumerate(lists):
+            if list:
+                heappush(heap, (list.val, i, list))
 
-# heappop - pop and return the smallest element from heap
-# heappush - push the value item onto the heap, maintaining
-#             heap invarient
-# heapify - transform list into heap, in place, in linear time
+        cur = res
+        while heap:
+            _, i, list = heappop(heap)
+            if list.next:
+                heappush(heap, (list.next.val, i, list.next))
 
-# A class for Min Heap
-class MinHeap:
+            cur.next, cur = list, list
 
-    # Constructor to initialize a heap
-    def __init__(self):
-        self.heap = []
-
-    def parent(self, i):
-        return (i - 1) / 2
-
-    # Inserts a new key 'k'
-    def insertKey(self, k):
-        heappush(self.heap, k)
-
-        # Decrease value of key at index 'i' to new_val
-
-    # It is assumed that new_val is smaller than heap[i]
-    def decreaseKey(self, i, new_val):
-        self.heap[i] = new_val
-        while (i != 0 and self.heap[self.parent(i)] > self.heap[i]):
-            # Swap heap[i] with heap[parent(i)]
-            self.heap[i], self.heap[self.parent(i)] = (
-                self.heap[self.parent(i)], self.heap[i])
-
-
-    def extractMin(self):
-        return heappop(self.heap)
-
-
-    def deleteKey(self, i):
-        self.decreaseKey(i, float("-inf"))
-        self.extractMin()
-
-    # Get the minimum element from the heap
-    def getMin(self):
-        return self.heap[0]
+        return res.next

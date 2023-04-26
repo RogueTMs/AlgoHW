@@ -1,53 +1,37 @@
+# В merge приходит массив, поделённый на sorted и not sorted.
+# Делим not sorted пополам и сортируем одну половину
+# Дальше мержим две отсортированные части, как буффер S + Q
+
 def sortArray(nums):
-    return merge_in_place(nums)
+    merge_sort_in_place(nums, 0, len(nums))
+    return nums
 
 
 def swap(arr, left, right):
     arr[left], arr[right] = arr[right], arr[left]
 
 
-def merge(arr, left_f, right_f, left_s, right_s, res):
-    # should be 2 arrays [left_f, right_f] and [left_s, right_s] and where to: [res, ...]
-    i, j = 0, 0
-    while i < lsize and j < rsize:
-        if left[i] < right[j]:
-            res[k] = left[i]
-            i += 1
+def merge(A, start, mid, end):
+    L = A[start:mid]
+    R = A[mid:end]
+    i = 0
+    j = 0
+    k = start
+    for l in range(k, end):
+        if j >= len(R) or (i < len(L) and L[i] < R[j]):
+            A[l] = L[i]
+            i = i + 1
         else:
-            res[k] = right[j]
-            j += 1
-        k += 1
-
-    while i < lsize:
-        res[k] = left[i]
-        k += 1
-        i += 1
-    while j < rsize:
-        res[k] = right[j]
-        k += 1
-        j += 1
+            A[l] = R[j]
+            j = j + 1
 
 
-def merge_in_place(array):
-    if len(array) == 1:
-        return array
-
-    if len(array) == 2:
-        if array[0] > array[1]:
-            array[0], array[1] = array[1], array[0]
-        return array
-
-    middle = len(array) // 2
-    l = merge_in_place(array[:middle])
-    r = merge_in_place(array[middle:])
-
-    buffer = [0 for i in range(len(array))]
-    merge(l, r, buffer)
-
-    for i in range(0, len(array)):
-        array[i] = buffer[i]
-
-    return array
+def merge_sort_in_place(A,p,r):
+    if r - p > 1:
+        mid = int((p+r)/2)
+        merge_sort_in_place(A,p,mid)
+        merge_sort_in_place(A,mid,r)
+        merge(A,p,mid,r)
 
 
 nums = [5, 2, 3, 1]
