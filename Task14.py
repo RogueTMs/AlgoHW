@@ -1,41 +1,44 @@
-from random import randint
+class Solution:
+    def findKthLargest(self, nums, k):
+        from random import randint
+
+        def partition(arr):
+
+            if len(arr) == 1:
+                return [], arr[0], []
+            if len(arr) == 2:
+                if arr[0] <= arr[1]:
+                    return [], arr[0], arr[1]
+                else:
+                    return [], arr[1], arr[0]
+
+            p = randint(0, len(arr) - 1)
+            pivot = arr[p]
+            right = []
+            left = []
+            for i in range(len(arr)):
+                if not i == p:
+                    if arr[i] > pivot:
+                        right.append(arr[i])
+                    else:
+                        left.append(arr[i])
+            return left, pivot, right
+
+        def kth(arr, k):
+
+            (left, pivot, right) = partition(arr)
+            if type(right) is int:
+                right = [right]
+            if len(right) == k - 1:
+                result = pivot
+            elif len(right) > k - 1:
+                result = kth(right, k)
+            else:
+                result = kth(left, k - len(right) - 1)
+            return result
+
+        kth(nums, k)
 
 
-def partition(arr, piv):
-    i = 0
-    j = len(arr) - 1
-    num = arr[piv]
-    while i < j:
-        print(arr, num)
-        if arr[i] >= num and arr[j] <= num:
-            arr[i], arr[j] = arr[j], arr[i]
-            i += 1
-            j -= 1
-        elif arr[i] >= num:
-            j -= 1
-        elif arr[j] <= num:
-            i += 1
-        else:
-            i += 1
-            j -= 1
-
-    return i
-
-
-def kth(array, k) -> int:
-    if len(array) == 1:
-        return array[0]
-
-    pivot = randint(0, len(array) - 1)
-    p = partition(array, pivot)
-    print(array, pivot, p)
-
-    if p + 1 == k:
-        return array[p]
-    elif p + 1 < k:
-        return kth(array[p + 1:], k - p - 1)
-    else:
-        return kth(array[:p], k)
-
-
-print(kth([3,2,1,5,6,4], 5))
+sol = Solution()
+sol.findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4)

@@ -8,6 +8,12 @@ def solve(nums):
 
     return res[0] == count
 
+# def solve(nums):
+#     for i in range(len(nums)):
+#         if abs(nums[i] - i) > 1:
+#             return False
+#     return True
+
 
 def sort_and_count_inversions(array):
     if len(array) == 1:
@@ -53,4 +59,4 @@ def merge_and_count_split(left, right, res):
 
 
 print(solve([1, 0]))
-print(solve([1, 2, 0]))
+print(solve([1, 2, 0, 3]))

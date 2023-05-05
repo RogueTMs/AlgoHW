@@ -5,8 +5,15 @@ class ListNode:
 
 
 class Solution:
-    def hasCycle(self, head):
-        while head != None and head.val != 1000000:
-            head.val = 1000000
-            head = head.next
-        return head
+    def detectCycle(self, head):
+        fast, slow = head, head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if fast == slow:
+                slow = head
+                while slow is not fast:
+                    fast = fast.next
+                    slow = slow.next
+                return slow
+        return None
