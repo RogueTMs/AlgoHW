@@ -1,5 +1,6 @@
 from random import randint
 
+
 class Solution:
     def sortArray(self, nums):
         def quick_sort(arr):
