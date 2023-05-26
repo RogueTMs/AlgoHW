@@ -74,9 +74,6 @@ class Solution:
                         break
             else:
                 merge(_from, usmid, usmid, mid, mid, to)
-            # merge(_from, to, mid, usmid)
-
-            # print('BEFORE - ', nums[_from: to], _from, to)
 
             while mid - usmid > 0:
                 if mid - usmid < usmid - _from:
