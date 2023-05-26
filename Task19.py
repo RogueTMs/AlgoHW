@@ -1,7 +1,3 @@
-# Definition for singly-linked list.
-from heapq import heappush
-
-
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -34,9 +30,6 @@ class BinHeap:
 
     def __str__(self):
         return self.heapList.__str__()
-
-    def size(self):
-        return self.size
 
     def get_parent(self, ind):
         if self.size > 0 and ind > 0:
@@ -96,27 +89,23 @@ class BinHeap:
             self._sift_down(i)
 
 
-
-
-
 class Solution:
     def mergeKLists(self, lists):
-        heap = BinHeap()
+        if not lists:
+            return None
+
+        heap, result = BinHeap(), ListNode()
         heap.buildHeap([node for node in lists])
-        new_list = ListNode()
-        head = new_list
-        first = False
-        while heap.heapList:
-            tmp = heap.get_min()
-            if not first:
-                head.val = tmp.val
-                first = True
-            else:
-                head.next = tmp
-                head = head.next
-            if tmp.next is not None:
-                heap.insert(tmp.next)
-        return new_list
+        head = result
+
+        while heap.size:
+            cur = heap.get_min()
+            head.next = cur
+            head = head.next
+
+            if cur.next is not None:
+                heap.insert(cur.next)
+        return result
 
 
 test_list1 = ListNode(val=1)
@@ -146,3 +135,4 @@ mas = [test_list1, test_list2, test_list3]
 
 sol = Solution()
 print(sol.mergeKLists(lists=mas))
+print(sol.mergeKLists(lists=[]))

@@ -4,7 +4,7 @@ class Node:
         self.next = None
 
 
-class Stack:
+class MinStack:
     def __init__(self):
         self.head = None
         self.min = None
@@ -35,16 +35,17 @@ class Stack:
 
             return value.val
 
-    def peek(self):
+    def top(self):
         if self.head is None:
             return None
         return self.head.val
 
-    def is_empty(self):
-        if self.head:
-            return True
-        else:
-            return False
+    def getMin(self):
+        return self.min.val
 
-    def get_min(self):
-        return self.min
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()

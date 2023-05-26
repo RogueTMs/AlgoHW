@@ -1,26 +1,36 @@
-from _collections import defaultdict
-
 class FreqStack:
-
     def __init__(self):
-        self.freq_numList_dict = defaultdict(list)
-        self.num_freq_dict = defaultdict(int)
-        self.max_frequency = 0
+        self.nums = {}
+        self.dict = {}
+        self.max = -1
 
-    def push(self, x: int) -> None:
-        self.num_freq_dict[x] += 1
-        cur_frequency = self.num_freq_dict[x]
-        self.max_frequency = max(self.max_frequency, self.num_freq_dict[x])
-        self.freq_numList_dict[cur_frequency].append(x)
+    def push(self, val):
+        if val in self.nums.keys():
+            self.nums[val] += 1
+        else:
+            self.nums[val] = 1
 
-    def pop(self) -> int:
-        high_freq_last_element = self.freq_numList_dict[self.max_frequency].pop()
-        self.num_freq_dict[high_freq_last_element] -= 1
+        if self.nums[val] in self.dict.keys():
+            self.dict[self.nums[val]].append(val)
+        else:
+            self.dict[self.nums[val]] = [val]
 
-        if not self.freq_numList_dict[self.max_frequency]:
-            self.max_frequency -= 1
+        self.max = max(self.max, self.nums[val])
 
-        return high_freq_last_element
+    def pop(self):
+        if len(self.nums.keys()) == 0:
+            return None
+        else:
+            ans = self.dict[self.max].pop()
+            self.nums[ans] -= 1
+            if self.nums[ans] == 0:
+                del self.nums[ans]
+
+            if len(self.dict[self.max]) == 0:
+                del self.dict[self.max]
+                self.max -= 1
+            return ans
+
 
 # Your FreqStack object will be instantiated and called as such:
 # obj = FreqStack()
